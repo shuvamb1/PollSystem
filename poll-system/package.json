@@ -1,0 +1,22 @@
+{
+  "name": "realtime-poll-system",
+  "version": "1.0.0",
+  "description": "Online poll/voting system with MongoDB, Express, EJS, Chart.js, Socket.io, and duplicate prevention (Session + IP).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^8.5.3",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= poll.question %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1><%= poll.question %></h1>
+  <h3>Total Votes: <span id="totalVotes"><%= poll.votes.reduce((a,b) => a+b, 0) %></span></h3>
+
+  <form action="/vote/<%= poll.id %>" method="POST">
+    <% poll.options.forEach((option, index) => { %>
+      <div>
+        <input type="radio" name="option" value="<%= index %>" required>
+        <label><%= option %></label>
+      </div>
+    <% }) %>
+    <button type="submit">Vote</button>
+  </form>
+
+  <canvas id="resultsChart"></canvas>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const socket = io();
+    socket.emit("joinPoll", "<%= poll.id %>");
+
+  const ctx = document.getElementById('pollChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: <%- JSON.stringify(poll.options) %>,
+      datasets: [{
+        label: 'Votes',
+        data: <%- JSON.stringify(poll.votes) %>,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+      }]
+    }
+  });
+
+
+    socket.on("voteUpdate", (data) => {
+      chart.data.datasets[0].data = data.votes;
+      chart.update();
+      document.getElementById("totalVotes").innerText = data.totalVotes;
+    });
+  </script>
+</body>
+</html>

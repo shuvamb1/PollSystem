@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poll List</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Available Polls</h1>
+  <a href="/create">+ Create Poll</a>
+  <ul>
+    <% if (polls.length === 0) { %>
+      <li>No polls yet. Create one!</li>
+    <% } else { %>
+      <% polls.forEach(poll => { %>
+        <li><a href="/poll/<%= poll.id %>"><%= poll.question %></a></li>
+      <% }) %>
+    <% } %>
+  </ul>
+</body>
+</html>
