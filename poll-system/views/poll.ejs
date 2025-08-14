@@ -1,147 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Poll List</title>
+  <title><%= poll.question %></title>
   <link rel="stylesheet" href="/styles.css">
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
-
-  /* ===== Header Section ===== */
-  header {
-    background: linear-gradient(135deg, #28a745, #218838);
-    color: white;
-    text-align: center;
-    padding: 30px 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  header h1 {
-    margin: 0;
-    font-size: 2.2rem;
-    font-weight: bold;
-  }
-  header p {
-    margin-top: 8px;
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
-
-  /* ===== Main Container ===== */
-  h1 {
-    text-align: center;
-    padding: 20px;
-    color: #222;
-  }
-  a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    margin-top: 30px;
-  }
-  .create-link {
-    display: inline-block;
-    background: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    transition: background 0.3s ease;
-  }
-  .create-link:hover {
-    background: #218838;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  /* Animation */
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-15px);
+/* ===== Header Section ===== */ header { background: linear-gradient(135deg, #28a745, #218838); color: white; text-align: center; padding: 30px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); } header h1 { margin: 0; font-size: 2.2rem; font-weight: bold; } header p { margin-top: 8px; font-size: 1.1rem; opacity: 0.9; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+      text-align: center;
     }
-    to {
-      opacity: 1;
-      transform: translateX(0);
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
     }
-  }
-
-  li {
-    padding: 15px;
-    margin: 8px 0;
-    background: #f9f9f9;
-    border-radius: 6px;
-    transition: background 0.3s ease;
-    opacity: 0;
-    animation: slideIn 0.4s ease forwards;
-  }
-
-  /* Delay each list item slightly */
-  li:nth-child(1) { animation-delay: 0.1s; }
-  li:nth-child(2) { animation-delay: 0.2s; }
-  li:nth-child(3) { animation-delay: 0.3s; }
-  li:nth-child(4) { animation-delay: 0.4s; }
-  li:nth-child(5) { animation-delay: 0.5s; }
-
-  li:hover {
-    background: #eef3f7;
-  }
-
-  /* 📱 Mobile Responsive */
-  @media (max-width: 600px) {
-    header h1 {
-      font-size: 1.8rem;
+    h3 {
+      color: #555;
     }
-    header p {
-      font-size: 1rem;
+    form {
+      margin: 20px auto;
+      display: inline-block;
+      text-align: left;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-  }
-</style>
-
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    /* Pulse animation */
+    .pulse {
+      animation: pulseAnim 0.3s ease;
+    }
+    @keyframes pulseAnim {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    #resultsChart {
+      max-width: 600px;
+      margin: 30px auto;
+    }
+  </style>
 </head>
 <body>
+<header> <h1>Make Your Poll</h1> <p>Create polls, share them, and see live results instantly</p> </header>
+  <h1><%= poll.question %></h1>
+  <h3>Total Votes: <span id="totalVotes"><%= poll.votes.reduce((a,b) => a+b, 0) %></span></h3>
 
-  <!-- Header Section -->
-  <header>
-    <h1>Make Your Poll</h1>
-    <p>Create polls, share them, and see live results instantly</p>
-  </header>
+  <form action="/vote/<%= poll.id %>" method="POST">
+    <% poll.options.forEach((option, index) => { %>
+      <div>
+        <input type="radio" name="option" value="<%= index %>" required>
+        <label><%= option %></label>
+      </div>
+    <% }) %>
+    <button type="submit" id="voteBtn">Vote</button>
+  </form>
 
-  <!-- Poll List Section -->
-  <div class="container">
-    <h2>Available Polls</h2>
-    <% const pollList = Array.isArray(polls) ? polls : []; %>
+  <canvas id="resultsChart"></canvas>
 
-<a class="create-link" href="/create">+ Create Poll</a>
-<ul>
-  <% if (pollList.length === 0) { %>
-    <li class="empty-message">No polls yet. Create one!</li>
-  <% } else { %>
-    <% pollList.forEach(poll => { %>
-      <li class="poll-item"><%= poll.question %></li>
-    <% }); %>
-  <% } %>
-</ul>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const socket = io();
+    socket.emit("joinPoll", "<%= poll.id %>");
 
-  </div>
+    const ctx = document.getElementById('resultsChart').getContext('2d');
 
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: <%- JSON.stringify(poll.options) %>,
+        datasets: [{
+          label: 'Votes',
+          data: <%- JSON.stringify(poll.votes.map(() => 0)) %>, // Start from 0 for animation
+          backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        }]
+      },
+      options: {
+        animation: {
+          duration: 1000,
+          easing: 'easeOutCubic',
+          onComplete: function () {
+            chart.data.datasets[0].data = <%- JSON.stringify(poll.votes) %>;
+            chart.update();
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    });
+
+    setTimeout(() => {
+      chart.data.datasets[0].data = <%- JSON.stringify(poll.votes) %>;
+      chart.update();
+    }, 200);
+
+    socket.on("voteUpdate", (data) => {
+      chart.data.datasets[0].data = data.votes;
+      chart.update();
+      document.getElementById("totalVotes").innerText = data.totalVotes;
+    });
+
+    // Pulse animation on vote button click
+    document.getElementById("voteBtn").addEventListener("click", function () {
+      this.classList.add("pulse");
+      setTimeout(() => this.classList.remove("pulse"), 300);
+    });
+  </script>
 </body>
 </html>
-
