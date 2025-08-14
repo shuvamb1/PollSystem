@@ -3,6 +3,87 @@
 <head>
   <title>Poll List</title>
   <link rel="stylesheet" href="/styles.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    padding: 20px;
+    color: #222;
+    font-size: 2rem;
+  }
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  .create-link {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .create-link:hover {
+    background: #218838;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    padding: 15px;
+    margin: 8px 0;
+    background: #f9f9f9;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+    font-size: 1rem;
+  }
+  li:hover {
+    background: #eef3f7;
+  }
+
+  /* 📱 Mobile Responsive */
+  @media (max-width: 600px) {
+    .container {
+      margin: 15px;
+      padding: 15px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      padding: 10px;
+    }
+    .create-link {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      font-size: 1rem;
+    }
+    li {
+      font-size: 0.95rem;
+      padding: 12px;
+    }
+  }
+</style>
 </head>
 <body>
   <h1>Available Polls</h1>
@@ -18,3 +99,4 @@
   </ul>
 </body>
 </html>
+
