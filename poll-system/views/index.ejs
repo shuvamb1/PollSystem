@@ -3,100 +3,117 @@
 <head>
   <title>Poll List</title>
   <link rel="stylesheet" href="/styles.css">
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
-  h1 {
-    text-align: center;
-    padding: 20px;
-    color: #222;
-    font-size: 2rem;
-  }
-  a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    margin-top: 30px;
-  }
-  .create-link {
-    display: inline-block;
-    background: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    transition: background 0.3s ease;
-  }
-  .create-link:hover {
-    background: #218838;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    padding: 15px;
-    margin: 8px 0;
-    background: #f9f9f9;
-    border-radius: 6px;
-    transition: background 0.3s ease;
-    font-size: 1rem;
-  }
-  li:hover {
-    background: #eef3f7;
-  }
-
-  /* 📱 Mobile Responsive */
-  @media (max-width: 600px) {
-    .container {
-      margin: 15px;
-      padding: 15px;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      color: #333;
     }
+
+    /* ===== Header Section ===== */
+    header {
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: bold;
+    }
+    header p {
+      margin-top: 8px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* ===== Main Container ===== */
     h1 {
-      font-size: 1.5rem;
-      padding: 10px;
+      text-align: center;
+      padding: 20px;
+      color: #222;
+    }
+    a {
+      text-decoration: none;
+      color: #007bff;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      margin-top: 30px;
     }
     .create-link {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      font-size: 1rem;
+      display: inline-block;
+      background: #28a745;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .create-link:hover {
+      background: #218838;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
     }
     li {
-      font-size: 0.95rem;
-      padding: 12px;
+      padding: 15px;
+      margin: 8px 0;
+      background: #f9f9f9;
+      border-radius: 6px;
+      transition: background 0.3s ease;
     }
-  }
-</style>
+    li:hover {
+      background: #eef3f7;
+    }
+
+    /* 📱 Mobile Responsive */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Available Polls</h1>
-  <a href="/create">+ Create Poll</a>
-  <ul>
-    <% if (polls.length === 0) { %>
-      <li>No polls yet. Create one!</li>
-    <% } else { %>
-      <% polls.forEach(poll => { %>
-        <li><a href="/poll/<%= poll.id %>"><%= poll.question %></a></li>
-      <% }) %>
-    <% } %>
-  </ul>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Make Your Poll</h1>
+    <p>Create polls, share them, and see live results instantly</p>
+  </header>
+
+  <!-- Poll List Section -->
+  <div class="container">
+    <h1>Available Polls</h1>
+    <a class="create-link" href="/create">+ Create Poll</a>
+    <ul>
+      <% if (polls.length === 0) { %>
+        <li>No polls yet. Create one!</li>
+      <% } else { %>
+        <% polls.forEach(poll => { %>
+          <li><a href="/poll/<%= poll.id %>"><%= poll.question %></a></li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
+
 </body>
 </html>
-
