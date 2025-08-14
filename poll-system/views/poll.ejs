@@ -104,7 +104,7 @@
     const socket = io();
     socket.emit("joinPoll", "<%= poll.id %>");
 
-  const ctx = document.getElementById('pollChart').getContext('2d');
+  const ctx = document.getElementById('resultsChart').getContext('2d');
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -126,4 +126,5 @@
   </script>
 </body>
 </html>
+
 
