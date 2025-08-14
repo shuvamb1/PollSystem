@@ -3,7 +3,7 @@
 <head>
   <title>Create Poll</title>
   <link rel="stylesheet" href="/styles.css">
-<style>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
@@ -11,21 +11,40 @@
       padding: 0;
       color: #333;
     }
+
+    /* ✨ Animated page load */
+    body {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 🏷️ Header */
     h1 {
       text-align: center;
       margin-top: 20px;
       font-size: 2rem;
       color: #222;
     }
+
+    /* 📦 Container */
     .container {
       max-width: 600px;
       margin: auto;
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       border-radius: 10px;
       margin-top: 30px;
     }
+
+    /* 📝 Form Styling */
     form {
       display: flex;
       flex-direction: column;
@@ -41,11 +60,14 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       outline: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     input[type="text"]:focus {
       border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0,123,255,0.2);
     }
+
+    /* ✅ Button */
     button {
       background: #28a745;
       color: white;
@@ -55,10 +77,11 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 1rem;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
     button:hover {
       background: #218838;
+      transform: translateY(-2px);
     }
 
     /* 📱 Mobile Responsive */
@@ -85,14 +108,15 @@
   </style>
 </head>
 <body>
-  <h1>Create a New Poll</h1>
-  <form action="/create" method="POST">
-    <label>Question:</label>
-    <input type="text" name="question" required>
-    <label>Options (comma separated):</label>
-    <input type="text" name="options" required>
-    <button type="submit">Create</button>
-  </form>
+  <div class="container">
+    <h1>Create a New Poll</h1>
+    <form action="/create" method="POST">
+      <label>Question:</label>
+      <input type="text" name="question" required>
+      <label>Options (comma separated):</label>
+      <input type="text" name="options" required>
+      <button type="submit">Create</button>
+    </form>
+  </div>
 </body>
 </html>
-
