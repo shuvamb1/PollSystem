@@ -58,6 +58,7 @@
 </head>
 <body>
 <header> <h1>Make Your Poll</h1> <p>Create polls, share them, and see live results instantly</p> </header>
+<div class="container">
   <h1><%= poll.question %></h1>
   <h3>Total Votes: <span id="totalVotes"><%= poll.votes.reduce((a,b) => a+b, 0) %></span></h3>
 
@@ -126,5 +127,7 @@
       setTimeout(() => this.classList.remove("pulse"), 300);
     });
   </script>
+</div>
 </body>
 </html>
+
