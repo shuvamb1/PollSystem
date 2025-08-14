@@ -127,17 +127,21 @@
   <!-- Poll List Section -->
   <div class="container">
     <h2>Available Polls</h2>
-    <a class="create-link" href="/create">+ Create Poll</a>
-    <ul>
-      <% if (polls.length === 0) { %>
-        <li class="empty-message">No polls yet. Create one!</li>
-      <% } else { %>
-        <% polls.forEach(poll => { %>
-          <li><a href="/poll/<%= poll.id %>"><%= poll.question %></a></li>
-        <% }) %>
-      <% } %>
-    </ul>
+    <% const pollList = Array.isArray(polls) ? polls : []; %>
+
+<a class="create-link" href="/create">+ Create Poll</a>
+<ul>
+  <% if (pollList.length === 0) { %>
+    <li class="empty-message">No polls yet. Create one!</li>
+  <% } else { %>
+    <% pollList.forEach(poll => { %>
+      <li class="poll-item"><%= poll.question %></li>
+    <% }); %>
+  <% } %>
+</ul>
+
   </div>
 
 </body>
 </html>
+
