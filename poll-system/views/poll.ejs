@@ -1,130 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= poll.question %></title>
+  <title>Poll List</title>
   <link rel="stylesheet" href="/styles.css">
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      color: #333;
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  /* ===== Header Section ===== */
+  header {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: bold;
+  }
+  header p {
+    margin-top: 8px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  /* ===== Main Container ===== */
+  h1 {
+    text-align: center;
+    padding: 20px;
+    color: #222;
+  }
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  .create-link {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .create-link:hover {
+    background: #218838;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  /* Animation */
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-15px);
     }
-    h1, h3 {
-      text-align: center;
-      margin: 10px 0;
+    to {
+      opacity: 1;
+      transform: translateX(0);
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      border-radius: 10px;
-      margin-top: 30px;
+  }
+
+  li {
+    padding: 15px;
+    margin: 8px 0;
+    background: #f9f9f9;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+    opacity: 0;
+    animation: slideIn 0.4s ease forwards;
+  }
+
+  /* Delay each list item slightly */
+  li:nth-child(1) { animation-delay: 0.1s; }
+  li:nth-child(2) { animation-delay: 0.2s; }
+  li:nth-child(3) { animation-delay: 0.3s; }
+  li:nth-child(4) { animation-delay: 0.4s; }
+  li:nth-child(5) { animation-delay: 0.5s; }
+
+  li:hover {
+    background: #eef3f7;
+  }
+
+  /* 📱 Mobile Responsive */
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.8rem;
     }
-    form {
-      margin-top: 20px;
-    }
-    form div {
-      padding: 10px;
-      background: #f9f9f9;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      transition: background 0.3s ease;
-    }
-    form div:hover {
-      background: #eef3f7;
-    }
-    label {
-      margin-left: 8px;
+    header p {
       font-size: 1rem;
     }
-    button {
-      background: #007bff;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      display: block;
-      margin: 15px auto;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    canvas {
-      display: block;
-      max-width: 100%;
-      margin: 20px auto;
-    }
+  }
+</style>
 
-    /* 📱 Mobile Responsive */
-    @media (max-width: 600px) {
-      .container {
-        margin: 15px;
-        padding: 15px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      label {
-        font-size: 0.95rem;
-      }
-      button {
-        width: 100%;
-        font-size: 1rem;
-        padding: 12px;
-      }
-    }
-  </style>
 </head>
 <body>
-  <h1><%= poll.question %></h1>
-  <h3>Total Votes: <span id="totalVotes"><%= poll.votes.reduce((a,b) => a+b, 0) %></span></h3>
 
-  <form action="/vote/<%= poll.id %>" method="POST">
-    <% poll.options.forEach((option, index) => { %>
-      <div>
-        <input type="radio" name="option" value="<%= index %>" required>
-        <label><%= option %></label>
-      </div>
-    <% }) %>
-    <button type="submit">Vote</button>
-  </form>
+  <!-- Header Section -->
+  <header>
+    <h1>Make Your Poll</h1>
+    <p>Create polls, share them, and see live results instantly</p>
+  </header>
 
-  <canvas id="resultsChart"></canvas>
+  <!-- Poll List Section -->
+  <div class="container">
+    <h2>Available Polls</h2>
+    <a class="create-link" href="/create">+ Create Poll</a>
+    <ul>
+      <% if (polls.length === 0) { %>
+        <li class="empty-message">No polls yet. Create one!</li>
+      <% } else { %>
+        <% polls.forEach(poll => { %>
+          <li><a href="/poll/<%= poll.id %>"><%= poll.question %></a></li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const socket = io();
-    socket.emit("joinPoll", "<%= poll.id %>");
-
-  const ctx = document.getElementById('resultsChart').getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: <%- JSON.stringify(poll.options) %>,
-      datasets: [{
-        label: 'Votes',
-        data: <%- JSON.stringify(poll.votes) %>,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)'
-      }]
-    }
-  });
-
-
-    socket.on("voteUpdate", (data) => {
-      chart.data.datasets[0].data = data.votes;
-      chart.update();
-      document.getElementById("totalVotes").innerText = data.totalVotes;
-    });
-  </script>
 </body>
 </html>
-
-
