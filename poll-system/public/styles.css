@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
+  margin: none;
 }
 h1, h3 {
   color: #333;
@@ -21,3 +21,4 @@ button {
 button:hover {
   background: #218838;
 }
+
